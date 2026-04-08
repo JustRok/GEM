@@ -25,6 +25,20 @@ let addToCache = false;
 async function fetchAndCache(request) {
     const cache = await caches.open(cacheName);
     const cachedResponse = await cache.match(request);
+    const CACHE_NAME = 'renpy-v1';
+const MAX_CACHE_SIZE = 50 * 1024 * 1024; // 50MB limit
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll([
+        'renpy.js',
+        'renpy.wasm',
+        'index.html'
+      ]);
+    })
+  );
+});
 
 
     try {
